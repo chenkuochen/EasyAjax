@@ -1,6 +1,17 @@
+/*!
+ * easyajax.js v0.0.1
+ * https://github.com/chenkuochen/easyajax.js
+ *
+ * Copyright 2014 Chen-Kuo Chen
+ * Released under the MIT license
+ */
+
+
 var easyAjax = (function(){
+    var _config;
     function init(config){
-        easyAjax(config.method, config.url, config.params, config.success, config.failure);
+        _config = config;
+        easyAjax(_config.method, _config.url, _config.params, _config.success, _config.failure);
     }
     function easyAjax(method, url, params, success, failure){ //only deal with json
         var httpRequest;
@@ -15,7 +26,8 @@ var easyAjax = (function(){
                 } catch (exception2) {}
             }
         }
-        if (!httpRequest) {
+        if (!httpRequest || (!(/^http:.*/.test(url)) && !(/^https:.*/.test(url)))) {
+            console.log(url);
             return false;
         }
         httpRequest.onreadystatechange = function(){
@@ -31,7 +43,8 @@ var easyAjax = (function(){
         };
         if ('POST' === method) {
             httpRequest.open(method, url);
-            httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            setHeader(httpRequest, headers);
+            httpRequest.setRequestHeader('Content-Type', 'application/json');
             httpRequest.send(JSON.stringify(params));
         } else if ('GET' === method) {
             var getParams = "?";
@@ -39,10 +52,17 @@ var easyAjax = (function(){
                 getParams += key + '=' + params[key] + '&';
             }
             httpRequest.open(method, url + getParams.substring(0, getParams.length - 1));
+            setHeader(httpRequest, headers);
             httpRequest.send();
         } else {
             httpRequest.open(method, url);
+            setHeader(httpRequest, headers);
             httpRequest.send();
+        }
+    }
+    function setHeader(xhr, headers){
+        for (var key in _config.headers) {
+            xhr.setRequestHeader(key, _config.headers[key]);
         }
     }
     return {
