@@ -41,7 +41,7 @@ var easyAjax = (function(){
                 }
             } catch (exception) {}
         };
-        if ('POST' === method) {
+        if ('POST' === method || 'PUT' === method || 'PATCH' === method) {
             httpRequest.open(method, url);
             setHeader(httpRequest, headers);
             httpRequest.setRequestHeader('Content-Type', 'application/json');
