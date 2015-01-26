@@ -43,7 +43,7 @@ var easyAjax = (function(){
         };
         if ('POST' === method || 'PUT' === method || 'PATCH' === method) {
             httpRequest.open(method, url);
-            setHeader(httpRequest, headers);
+            setHeader(httpRequest);
             httpRequest.setRequestHeader('Content-Type', 'application/json');
             httpRequest.send(JSON.stringify(params));
         } else if ('GET' === method) {
@@ -52,15 +52,15 @@ var easyAjax = (function(){
                 getParams += key + '=' + params[key] + '&';
             }
             httpRequest.open(method, url + getParams.substring(0, getParams.length - 1));
-            setHeader(httpRequest, headers);
+            setHeader(httpRequest);
             httpRequest.send();
         } else {
             httpRequest.open(method, url);
-            setHeader(httpRequest, headers);
+            setHeader(httpRequest);
             httpRequest.send();
         }
     }
-    function setHeader(xhr, headers){
+    function setHeader(xhr){
         for (var key in _config.headers) {
             xhr.setRequestHeader(key, _config.headers[key]);
         }
@@ -69,3 +69,4 @@ var easyAjax = (function(){
         ajax : init
     };
 }());
+//module.exports = easyAjax;

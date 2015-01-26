@@ -5,5 +5,5 @@ It's very flexible and easy to use, but easyajax.js is NOT for production use. W
 Enjoy it!"
 
 
- *Copyright 2014 Chen-Kuo Chen*
+ *Copyright 2014 Chen-Kuo Chen*  
  *Released under the MIT license*
